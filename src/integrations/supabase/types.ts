@@ -55,6 +55,47 @@ export type Database = {
           },
         ]
       }
+      milestones: {
+        Row: {
+          created_at: string | null
+          date_completed: string
+          description: string | null
+          id: string
+          student_id: string
+          title: string
+          updated_at: string | null
+          verified_by_admin: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          date_completed: string
+          description?: string | null
+          id?: string
+          student_id: string
+          title: string
+          updated_at?: string | null
+          verified_by_admin?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          date_completed?: string
+          description?: string | null
+          id?: string
+          student_id?: string
+          title?: string
+          updated_at?: string | null
+          verified_by_admin?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "milestones_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           complaint_id: string | null
@@ -62,6 +103,7 @@ export type Database = {
           id: string
           is_read: boolean | null
           message: string
+          type: string | null
           user_id: string
         }
         Insert: {
@@ -70,6 +112,7 @@ export type Database = {
           id?: string
           is_read?: boolean | null
           message: string
+          type?: string | null
           user_id: string
         }
         Update: {
@@ -78,6 +121,7 @@ export type Database = {
           id?: string
           is_read?: boolean | null
           message?: string
+          type?: string | null
           user_id?: string
         }
         Relationships: [
@@ -114,6 +158,47 @@ export type Database = {
         }
         Relationships: []
       }
+      recruiter_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          sender_company: string | null
+          sender_email: string
+          sender_name: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          sender_company?: string | null
+          sender_email: string
+          sender_name: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          sender_company?: string | null
+          sender_email?: string
+          sender_name?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recruiter_messages_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       students: {
         Row: {
           availability: string | null
@@ -126,6 +211,8 @@ export type Database = {
           resume_url: string | null
           skills: string[] | null
           updated_at: string
+          verified: boolean | null
+          verified_at: string | null
         }
         Insert: {
           availability?: string | null
@@ -138,6 +225,8 @@ export type Database = {
           resume_url?: string | null
           skills?: string[] | null
           updated_at?: string
+          verified?: boolean | null
+          verified_at?: string | null
         }
         Update: {
           availability?: string | null
@@ -150,6 +239,8 @@ export type Database = {
           resume_url?: string | null
           skills?: string[] | null
           updated_at?: string
+          verified?: boolean | null
+          verified_at?: string | null
         }
         Relationships: []
       }
