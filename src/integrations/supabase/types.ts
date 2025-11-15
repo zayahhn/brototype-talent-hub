@@ -242,7 +242,15 @@ export type Database = {
           verified?: boolean | null
           verified_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "students_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

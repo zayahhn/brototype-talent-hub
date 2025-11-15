@@ -54,7 +54,7 @@ const StudentShowcase = () => {
     try {
       const { data, error } = await supabase
         .from("students")
-        .select("*, profiles!students_id_fkey(name, email)")
+        .select("*, profiles(name, email)")
         .eq("verified", true)
         .order("created_at", { ascending: false });
 
