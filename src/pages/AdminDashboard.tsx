@@ -73,7 +73,13 @@ const AdminDashboard = () => {
   const fetchStudents = async () => { 
     const { data, error } = await supabase
       .from("students")
-      .select(`*, profiles!students_id_fkey (name, email)`)
+      .select(`
+        *,
+        profiles!inner (
+          name,
+          email
+        )
+      `)
       .order("verified", { ascending: true });
     
     if (error) {
