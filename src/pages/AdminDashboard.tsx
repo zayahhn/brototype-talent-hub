@@ -70,7 +70,18 @@ const AdminDashboard = () => {
 
   const fetchComplaints = async () => { const { data } = await supabase.from("complaints").select(`*, profiles:student_id (name, email)`).order("created_at", { ascending: false }); if (data) setComplaints(data as any); };
   const fetchStudentCount = async () => { const { count } = await supabase.from("students").select("*", { count: "exact", head: true }); setStudentCount(count || 0); };
-  const fetchStudents = async () => { const { data } = await supabase.from("students").select(`*, profiles!students_id_fkey (name, email)`).order("verified", { ascending: true }); if (data) setStudents(data as any); };
+  const fetchStudents = async () => { 
+    const { data, error } = await supabase
+      .from("students")
+      .select(`*, profiles!students_id_fkey (name, email)`)
+      .order("verified", { ascending: true });
+    
+    if (error) {
+      console.error("Error fetching students:", error);
+      toast({ title: "Error loading students", description: error.message, variant: "destructive" });
+    }
+    if (data) setStudents(data as any); 
+  };
   const fetchMilestones = async () => { const { data } = await supabase.from("milestones").select(`*, profiles:student_id (name)`).eq("verified_by_admin", false).order("created_at", { ascending: false }); if (data) setMilestones(data as any); };
 
   const handleUpdateComplaint = async () => {
