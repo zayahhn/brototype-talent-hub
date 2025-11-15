@@ -52,31 +52,17 @@ const StudentShowcase = () => {
 
   const fetchStudents = async () => {
     try {
-      const { data: studentsData, error: studentsError } = await supabase
+      const { data, error } = await supabase
         .from("students")
-        .select("*")
+        .select("*, profiles!students_id_fkey(name, email)")
         .eq("verified", true)
         .order("created_at", { ascending: false });
 
-      if (studentsError) throw studentsError;
+      if (error) throw error;
 
-      if (studentsData) {
-        const studentIds = studentsData.map(s => s.id);
-        const { data: profilesData } = await supabase
-          .from("profiles")
-          .select("id, name, email")
-          .in("id", studentIds);
-
-        const studentsWithProfiles = studentsData.map(student => {
-          const profile = profilesData?.find(p => p.id === student.id);
-          return {
-            ...student,
-            profiles: profile || { name: "Unknown", email: "" }
-          };
-        });
-
-        setStudents(studentsWithProfiles);
-        setFilteredStudents(studentsWithProfiles);
+      if (data) {
+        setStudents(data as any);
+        setFilteredStudents(data as any);
       }
     } catch (error) {
       console.error("Error fetching students:", error);
